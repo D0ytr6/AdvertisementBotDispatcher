@@ -1,11 +1,12 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="OLX_ExtractAdvertisement" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:uasa="clr-namespace:UiPath.Activities.System.Arrays;assembly=UiPath.System.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="OLX_ExtractAdvertisement" this:OLX_ExtractAdvertisement.isNextPage="False" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:this="clr-namespace:" xmlns:uasa="clr-namespace:UiPath.Activities.System.Arrays;assembly=UiPath.System.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
-    <x:Property Name="AdvertisementDataTable" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="dt_Result" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="isNextPage" Type="InArgument(x:Boolean)" />
   </x:Members>
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>970,5768</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>978.9999999999999,6296</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>OLX_ExtractAdvertisement_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -118,7 +119,7 @@
       <AssemblyReference>UiPath.Excel</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="OLX_ExtractAdvertisement" sap:VirtualizedContainerService.HintSize="980,5703" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="OLX_ExtractAdvertisement" sap:VirtualizedContainerService.HintSize="980,6231" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="sd:DataTable" Default="[New System.Data.DataTable]" Name="dt_FullText" />
       <Variable x:TypeArguments="sd:DataTable" Name="dt_DeleteRows" />
@@ -126,12 +127,7 @@
       <Variable x:TypeArguments="scg:List(x:Int32)" Default="[new List(of Int32)]" Name="ListItemsToDelete" />
       <Variable x:TypeArguments="x:String" Default="Play Video" Name="str_VideoAdvertisement" />
       <Variable x:TypeArguments="x:String" Default="Підписатися" Name="str_RemoveSubscribeText" />
-      <Variable x:TypeArguments="s:DateTime" Name="TimeRange">
-        <Variable.Default>
-          <VisualBasicValue x:TypeArguments="s:DateTime" ExpressionText="DateTime.Now.AddHours(-2)" />
-        </Variable.Default>
-      </Variable>
-      <Variable x:TypeArguments="x:String" Name="variable1" />
+      <Variable x:TypeArguments="s:DateTime" Default="[DateTime.Now.AddHours(-2)]" Name="TimeRange" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -146,9 +142,6 @@
             <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
           </ActivityAction.Argument>
           <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="884,5002" sap2010:WorkflowViewState.IdRef="Sequence_10">
-            <Sequence.Variables>
-              <Variable x:TypeArguments="x:Boolean" Default="False" Name="isNextPage" />
-            </Sequence.Variables>
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -271,9 +264,7 @@
                   </ui:ForEach>
                   <ui:InvokeCode ContinueOnError="{x:Null}" Code="in_ListItemsToDelete.Clear" DisplayName="Invoke Code - clear index list to delete" sap:VirtualizedContainerService.HintSize="726,205" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
                     <ui:InvokeCode.Arguments>
-                      <InArgument x:TypeArguments="scg:List(x:Int32)" x:Key="in_ListItemsToDelete">
-                        <VisualBasicValue x:TypeArguments="scg:List(x:Int32)" ExpressionText="ListItemsToDelete" />
-                      </InArgument>
+                      <InArgument x:TypeArguments="scg:List(x:Int32)" x:Key="in_ListItemsToDelete">[ListItemsToDelete]</InArgument>
                     </ui:InvokeCode.Arguments>
                   </ui:InvokeCode>
                   <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[dt_FullText]" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="726,1892" sap2010:WorkflowViewState.IdRef="ForEachRow_3">
@@ -387,12 +378,8 @@
                   </ui:ForEachRow>
                   <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="OLX\OLX_RemoveAdvertByIndex.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="726,137" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="OLX\OLX_RemoveAdvertByIndex.xaml">
                     <ui:InvokeWorkflowFile.Arguments>
-                      <InOutArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_Advertisement">
-                        <VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="dt_FullText" />
-                      </InOutArgument>
-                      <InArgument x:TypeArguments="scg:List(x:Int32)" x:Key="in_listIndexToRemove">
-                        <VisualBasicValue x:TypeArguments="scg:List(x:Int32)" ExpressionText="ListItemsToDelete" />
-                      </InArgument>
+                      <InOutArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_Advertisement">[dt_FullText]</InOutArgument>
+                      <InArgument x:TypeArguments="scg:List(x:Int32)" x:Key="in_listIndexToRemove">[ListItemsToDelete]</InArgument>
                     </ui:InvokeWorkflowFile.Arguments>
                   </ui:InvokeWorkflowFile>
                 </Sequence>
@@ -405,7 +392,42 @@
         </ActivityAction>
       </ui:BrowserScope.Body>
     </ui:BrowserScope>
-    <ui:WriteRange StartingCell="{x:Null}" AddHeaders="True" DataTable="[dt_TitleUrl]" DisplayName="Write Range Workbook" sap:VirtualizedContainerService.HintSize="918,156" sap2010:WorkflowViewState.IdRef="WriteRange_8" SheetName="Sheet1" WorkbookPath="Title.xlsx" />
-    <ui:WriteRange StartingCell="{x:Null}" AddHeaders="True" DataTable="[dt_FullText]" DisplayName="Write Range Workbook" sap:VirtualizedContainerService.HintSize="918,139" sap2010:WorkflowViewState.IdRef="WriteRange_9" SheetName="Sheet1" WorkbookPath="FullText.xlsx" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="OLX\OLX_UniteDataTable.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="918,154" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="OLX\OLX_UniteDataTable.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_FullText">
+          <VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dt_FullText" />
+        </InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_Title_URL">
+          <VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dt_TitleUrl" />
+        </InArgument>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dt_Result">
+          <VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="dt_Result" />
+        </OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="918,343" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="416,224" sap2010:WorkflowViewState.IdRef="Sequence_36">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:WriteRange StartingCell="{x:Null}" AddHeaders="True" DataTable="[dt_Result]" DisplayName="Write Range Workbook" sap:VirtualizedContainerService.HintSize="354,139" sap2010:WorkflowViewState.IdRef="WriteRange_8" SheetName="Sheet1" WorkbookPath="Title.xlsx" />
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="918,326" sap2010:WorkflowViewState.IdRef="CommentOut_2">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="416,224" sap2010:WorkflowViewState.IdRef="Sequence_37">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:WriteRange StartingCell="{x:Null}" AddHeaders="True" DataTable="[dt_FullText]" DisplayName="Write Range Workbook" sap:VirtualizedContainerService.HintSize="354,139" sap2010:WorkflowViewState.IdRef="WriteRange_9" SheetName="Sheet1" WorkbookPath="FullText.xlsx" />
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
   </Sequence>
 </Activity>
